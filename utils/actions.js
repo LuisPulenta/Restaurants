@@ -7,7 +7,11 @@ const db = firebase.firestore(firebaseApp)
 export const isUserLogged = () => {
     let isLogged = false
     firebase.auth().onAuthStateChanged((user) => {
-        user !== null && (isLogged = true)
+        user !== null ? (setLogin(true)):setLogin(false)
     })
     return isLogged
+}
+
+export const getCurrentUser = () => {
+    return firebase.auth().currentUser
 }
