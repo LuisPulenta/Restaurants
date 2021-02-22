@@ -28,8 +28,7 @@ function CreateAccount(props) {
     return (
         <Text 
             style={styles.register}
-            onPress={() => console.log("Register")}
-            // onPress={() => navigation.navigate("register")}
+             onPress={() => navigation.navigate("register")}
         >
             ¿Aún no tienes una cuenta?.{" "}
             <Text style={styles.btnRegister}>
