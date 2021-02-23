@@ -4,7 +4,7 @@ import { Button } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
 import Toast from 'react-native-easy-toast'
 
-import { closeSession } from '../../utils/actions'
+import { closeSession,getCurrentUser } from '../../utils/actions'
 import Loading from '../../components/Loading'
 import InfoUser from '../../components/account/InfoUser'
 
@@ -14,11 +14,17 @@ export default function UserLogged() {
 
     const [loading,setLoading] =useState(false)
     const [loadingText,setLoadingText] =useState("")
+    const [user,setUser] =useState(null)
 
+    useEffect(() => {
+        setUser(getCurrentUser())
+       }, [])
 
     return (
         <View style={styles.container}>
-            <InfoUser/>
+                {
+                    user && <InfoUser user={user}/>
+                }
             <Text>Account Options...</Text>
             <Button
                 title="Cerrar Sesión"
