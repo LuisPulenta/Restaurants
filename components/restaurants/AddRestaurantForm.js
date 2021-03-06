@@ -5,6 +5,7 @@ import CountryPicker from 'react-native-country-picker-modal'
 import { map, size, filter } from 'lodash' 
 
 import { getCurrentLocation, loadImageFromGallery } from '../../utils/helpers'
+import Modal from '../../components/Modal'
 
 const widthScreen = Dimensions.get("window").width
 
@@ -16,6 +17,8 @@ const[errorEmail,setErrorEmail]=useState(null)
 const[errorAddress,setErrorAddress]=useState(null)
 const[errorPhone,setErrorPhone]=useState(null)
 const[imagesSelected,setImagesSelected]=useState([])
+const [isVisibleMap, setIsVisibleMap] = useState(false)
+const [locationRestaurant, setLocationRestaurant] = useState(null)
 
 const addRestaurant = () => {
 console.log(formData)
@@ -35,6 +38,7 @@ console.log(formData)
                 errorEmail={errorEmail}
                 errorAddress={errorAddress}
                 errorPhone={errorPhone}
+                setIsVisibleMap={setIsVisibleMap}
             />
             <UploadImage
                 toastRef={toastRef}
@@ -46,7 +50,24 @@ console.log(formData)
                 onPress={addRestaurant}
                 buttonStyle={styles.btnAddRestaurant}
             />
+            <MapRestaurant
+                isVisibleMap={isVisibleMap}
+                setIsVisibleMap={setIsVisibleMap}
+                setLocationRestaurant={setLocationRestaurant}
+                toastRef={toastRef}
+
+            />
         </ScrollView>
+    )
+}
+
+function MapRestaurant({ isVisibleMap, setIsVisibleMap, locationRestaurant, setLocationRestaurant, toastRef }) {
+    return (
+        <Modal isVisible={isVisibleMap} setIsVisible={setIsVisibleMap}>
+            <Text>
+                Maps goes here!
+            </Text>
+        </Modal>
     )
 }
 
@@ -129,7 +150,7 @@ const removeImage=(image) =>{
     )
 }
 
-function FormAdd({formData,setFormData,errorName,errorDescription,errorEmail,errorAddress,errorPhone}) {
+function FormAdd({formData,setFormData,errorName,errorDescription,errorEmail,errorAddress,errorPhone,setIsVisibleMap}) {
     const [country,setCountry]=useState("AR")
     const [callingCode,setCallingCode]=useState("54")
     const [phone,setPhone]=useState("")
@@ -150,6 +171,12 @@ function FormAdd({formData,setFormData,errorName,errorDescription,errorEmail,err
             defaultValue={formData.address}
             onChange={(e)=> onChange(e,"address")}
             errorMessage={errorAddress}
+            rightIcon={{
+                type:"material-community",
+                name:"google-maps",
+                color:"#c2c2c2",
+                onPress:() => setIsVisibleMap(true)
+            }}
             />
             <Input
             keyboardType="email-address"
