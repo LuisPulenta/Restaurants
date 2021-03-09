@@ -17,12 +17,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier":"com.luisnu.restaurants"
     },
     "android": {
+      "package":"com.luisnu.restaurants",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBEN2Qhu-1QZQmL7rfphazUhBQkZzBsRoQ"
+        }
       },
       "permissions": [
         "CAMERA_ROLL",
