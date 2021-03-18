@@ -81,7 +81,7 @@ function Restaurant({ restaurant, setLoading, toastRef, navigation, setReloadDat
 
     const confirmRemoveFavorite = () => {
         Alert.alert(
-            "Eliminar restaurante de favorotos",
+            "Eliminar restaurante de favoritos",
             "¿Está seguro de querer borrar el restaurante de favoritos?",
             [
                 {
