@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useRef } from 'react'
-import { StyleSheet, Text, View, FlatList, TouchableOpacity,Alert,ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import { Button, Icon, Image } from 'react-native-elements'
 import { useFocusEffect } from '@react-navigation/native'
 import Toast from 'react-native-easy-toast'
 import firebase from 'firebase/app'
 
 import Loading from '../components/Loading'
-import { getFavorites } from '../utils/actions'
+import { deleteFavorite, getFavorites } from '../utils/actions'
 
 export default function Favorites({ navigation }) {
     const toastRef = useRef()
@@ -57,6 +57,7 @@ export default function Favorites({ navigation }) {
                                 setLoading={setLoading}
                                 toastRef={toastRef}
                                 navigation={navigation}
+                                setReloadData={setReloadData}
                             />
                         )}
                     />
@@ -75,14 +76,45 @@ export default function Favorites({ navigation }) {
     )
 }
 
-function Restaurant({ restaurant, setLoading, toastRef, navigation }) {
+function Restaurant({ restaurant, setLoading, toastRef, navigation, setReloadData }) {
     const { id, name, images } = restaurant.item
+
+    const confirmRemoveFavorite = () => {
+        Alert.alert(
+            "Eliminar restaurante de favorotos",
+            "¿Está seguro de querer borrar el restaurante de favoritos?",
+            [
+                {
+                    text: "No",
+                    style: "cancel"
+                },
+                {
+                    text: "Sí",
+                    onPress: removeFavorite
+                }
+            ],
+            { cancelable: false }
+        )
+    }
+
+    const removeFavorite = async() => {
+        setLoading(true)
+        const response = await deleteFavorite(id)
+        setLoading(false)
+        if (response.statusResponse) {
+            setReloadData(true)
+            toastRef.current.show("Restaurante eliminado de favoritos.", 3000)
+        } else {
+            toastRef.current.show("Error al eliminar restaurante de favoritos.", 3000)
+        }
+    }
+
     return (
         <View style={styles.restaurant}>
             <TouchableOpacity
                 onPress={() => navigation.navigate("restaurants", {
                     screen: "restaurant",
-                    params: { id }
+                    params: { id, name }
                 })}
             >
                 <Image
@@ -99,6 +131,7 @@ function Restaurant({ restaurant, setLoading, toastRef, navigation }) {
                         color="#f00"
                         containerStyle={styles.favorite}
                         underlayColor="transparent"
+                        onPress={confirmRemoveFavorite}
                     />
                 </View>
             </TouchableOpacity>
@@ -121,7 +154,7 @@ function UserNoLogged({ navigation }) {
     return (
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <Icon type="material-community" name="alert-outline" size={50}/>
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                 Necesitas estar logueado para ver los favoritos.
             </Text>
             <Button
