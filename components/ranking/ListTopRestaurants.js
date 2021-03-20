@@ -29,7 +29,7 @@ function Restaurant({restaurant,navigation}){
     }, [])
     return (
         <TouchableOpacity
-            onPress={()=>navigation.navigate("restaurant",{
+            onPress={()=>navigation.navigate("restaurants",{
                 screen:"restaurant",
                 params:{id,name}
             })}
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     },
     titleRating:{
         flexDirection:"row",
-        marginTop:10,
+        marginVertical:10,
         justifyContent:"space-between"
     }
 })
