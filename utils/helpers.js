@@ -72,6 +72,7 @@ export const sendWhatsApp=(phoneNumber,text)=>{
         Alert.alert("Por favor instale WhatsApp para enviar un mensaje directo")
         return
     }
+    console.log("Hola")
     return Linking.openURL(link)
 })
 }
