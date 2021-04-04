@@ -3,7 +3,7 @@
   import Loading from '../../components/Loading'
   import { getCurrentUser, isUserLogged } from '../../utils/actions'
   import { useFocusEffect } from '@react-navigation/native'
-
+  import firebase from 'firebase/app'
   import UserGuest from './UserGuest'
   import UserLogged from './UserLogged'
 
